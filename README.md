@@ -36,6 +36,7 @@ Place them for example in a `data/` folder at the project root.
 
 ## Run python code
 ```powershell
+python -m pip install -r requirements.txt
 python src/compute_ndwi.py --product data/input/SENTINEL2B_20260829-104909-474_L2A_T31TDH_C_V4-0.zip --output data/output/ --config ndwi-config.json
 ```
 
@@ -99,13 +100,6 @@ repository's `data/input/` folder. With `--outdir data/output`, only the
 final workflow outputs are copied into `data/output/` once the run succeeds.
 For example, `SENTINEL2B_..._L2A_...zip` produces
 `SENTINEL2B_..._L2B_...tif` and `SENTINEL2B_..._L2B_...json`.
-
-## Run the script locally (without Docker)
-
-```powershell
-pip install -r requirements.txt
-python src/compute_ndwi.py --product data/product.zip --output data/output --config ndwi-config.json
-```
 
 ## Build and push the image to CNES DockerHub
 
