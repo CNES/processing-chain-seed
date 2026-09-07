@@ -1,0 +1,6 @@
+bucket_name: larath-bucket
+l2a_path_s3_url: SENTINEL2B_20260829-104909-474_L2A_T31TDH_C_V4-0.zip
+input_dir: data/input
+config:
+  class: File
+  path: ../ndwi-config.json
