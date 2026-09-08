@@ -17,13 +17,13 @@ $graph:
     l2a_path_s3_url:
       type: string
       doc: S3 path or prefix of the Sentinel-2 L2A product.
+    conf_path_s3_url:
+      type: string
+      doc: S3 path or prefix of the configuration file.
     input_dir:
       type: string
       default: data/input
       doc: Directory (relative to the working directory) where the downloaded Sentinel-2 product is stored.
-    config_path_s3_url:
-      type: string
-      doc: S3 path containing the JSON configuration file
   outputs:
     processed_product:
       type: File
@@ -32,6 +32,13 @@ $graph:
       type: File
       outputSource: run_ndwi/ndwi_stac_out
   steps:
+    run_get_conf:
+      run: '#retrieve_conf'
+      in:
+        bucket_name: bucket_name
+        file_path: conf_path_s3_url
+        input_dir: input_dir
+      out: [s2_out]
     run_get_l2a:
       run: '#retrieve_s2'
       in:
@@ -39,18 +46,11 @@ $graph:
         file_path: l2a_path_s3_url
         input_dir: input_dir
       out: [s2_out]
-    run_get_conf:
-      run: '#retrieve_conf'
-      in:
-        bucket_name: bucket_name
-        file_path: config_path_s3_url
-        input_dir: input_dir
-      out: [s2_out]  
     run_ndwi:
       run: '#run_ndwi_container'
       in:
         product: run_get_l2a/s2_out
-        config: run_get_l2a/s2_out
+        config: run_get_conf/s2_out
       out:
         - ndwi_out
         - ndwi_stac_out
@@ -139,8 +139,8 @@ $graph:
     ResourceRequirement:
       coresMin: 2
       coresMax: 2
-      ramMin: 256  (MB)
-      ramMax: 3000 (MB)
+      ramMin: 256
+      ramMax: 3000
     InitialWorkDirRequirement:
       listing:
         - entryname: $(inputs.product.basename)

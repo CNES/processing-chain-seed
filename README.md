@@ -70,32 +70,32 @@ so after rebuilding the devcontainer, run:
 cwltool --outdir data/output cwl/ndwi.cwl cwl/ndwi-job.yml
 ```
 
-The S3 download step (`retrieve_s2`) requires the `S3_ENDPOINT_URL`,
+The S3 download steps (`retrieve_s2` and `retrieve_conf`) require the `S3_ENDPOINT_URL`,
 `S3_ACCESS_KEY` and `S3_SECRET_KEY` environment variables. Pass them
-through to the containers with `-preserve-entire-environment`:
+through to the containers with `--preserve-entire-environment`:
 
 ```bash
-cwltool -preserve-entire-environment --outdir data/output cwl/ndwi.cwl cwl/ndwi-job.yml
+cwltool --preserve-entire-environment --outdir data/output cwl/ndwi.cwl cwl/ndwi-job.yml
 ```
 
-Job inputs (`bucket_name`, `l2a_path_s3_url`, `input_dir`, `config`) can be
-adapted either by editing [cwl/ndwi-job.yml](cwl/ndwi-job.yml) or by
+Job inputs (`bucket_name`, `l2a_path_s3_url`, `conf_path_s3_url`, `input_dir`)
+can be adapted either by editing [cwl/ndwi-job.yml](cwl/ndwi-job.yml) or by
 overriding them directly on the command line, e.g.:
 
 ```bash
 cwltool \
-  -preserve-entire-environment \
+  --preserve-entire-environment \
   --outdir data/output \
   cwl/ndwi.cwl \
   --bucket_name larath-bucket \
   --l2a_path_s3_url SENTINEL2B_20260829-104909-474_L2A_T31TDH_C_V4-0.zip \
+  --conf_path_s3_url ndwi-config.json \
   --input_dir data/input \
-  --config ndwi-config.json
 ```
 
 `input_dir` only controls the path (relative to the step's own temporary
-working directory) where the downloaded product is staged before being
-passed to the NDWI step; it does not persist the product under the
+working directory) where the downloaded product and configuration are staged
+before being passed to the NDWI step; it does not persist them under the
 repository's `data/input/` folder. With `--outdir data/output`, only the
 final workflow outputs are copied into `data/output/` once the run succeeds.
 For example, `SENTINEL2B_..._L2A_...zip` produces
