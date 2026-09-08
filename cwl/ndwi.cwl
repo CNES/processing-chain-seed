@@ -87,7 +87,7 @@ $graph:
     s2_out:
       type: File
       outputBinding:
-        glob: $(inputs.input_dir)/*.tif
+        glob: $(inputs.input_dir)/*
 
 - class: CommandLineTool
   id: retrieve_conf
@@ -121,7 +121,7 @@ $graph:
     s2_out:
       type: File
       outputBinding:
-        glob: $(inputs.input_dir)/*.json
+        glob: $(inputs.input_dir)/*
 
 - class: CommandLineTool
   id: '#run_ndwi_container'
