@@ -2,7 +2,7 @@
 
 In order to help you to industrialize your processing chain this repository provides a simple example.
 
-Simple processing chain that takes two Sentinel-2 bands as input (green
+As algorithme example with used a simple processing chain that takes two Sentinel-2 bands as input (green
 B03 and near-infrared B08 in GeoTIFF format) and produces an NDWI
 (Normalized Difference Water Index) product as output, used to delineate
 water surfaces (e.g. lake outline).
