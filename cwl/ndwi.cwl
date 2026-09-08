@@ -135,7 +135,7 @@ $graph:
     - config.json
   requirements:
     DockerRequirement:
-      dockerPull: cnes/processing-chain-seed:0.0.1
+      dockerPull: cnes/processing-chain-seed:0.0.4
     ResourceRequirement:
       coresMin: 2
       coresMax: 2
