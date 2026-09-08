@@ -124,7 +124,7 @@ $graph:
         glob: $(inputs.input_dir)/*
 
 - class: CommandLineTool
-  id: '#run_ndwi_container'
+  id: run_ndwi_container
   baseCommand: ["python3", "/app/compute_ndwi.py"]
   arguments:
     - --product
