@@ -60,7 +60,7 @@ $graph:
   baseCommand: download_from_s3
   hints:
     DockerRequirement:
-      dockerPull: registry.gitlab.com/cwl-processing/cwl_helpers:v1.3
+      dockerPull: artifactory.cnes.fr/platform-incub-docker-prod-local/cwl-processing/cwl_helpers:v1.4.6
   requirements:
     NetworkAccess:
       networkAccess: true
@@ -87,14 +87,14 @@ $graph:
     s2_out:
       type: File
       outputBinding:
-        glob: $(inputs.input_dir)/*.zip
+        glob: $(inputs.input_dir)/*.tif
 
 - class: CommandLineTool
   id: retrieve_conf
   baseCommand: download_from_s3
   hints:
     DockerRequirement:
-      dockerPull: registry.gitlab.com/cwl-processing/cwl_helpers:v1.3
+      dockerPull: artifactory.cnes.fr/platform-incub-docker-prod-local/cwl-processing/cwl_helpers:v1.4.6
   requirements:
     NetworkAccess:
       networkAccess: true
