@@ -7,7 +7,7 @@ $schemas:
 - http://schema.org/version/latest/schemaorg-current-http.rdf
 $graph:
 - class: Workflow
-  id: '#main'
+  id: main
   label: Sentinel-2 NDWI workflow
   doc: Downloads a Sentinel-2 L2A product and computes NDWI from its B3 and B8 bands.
   inputs:
@@ -24,13 +24,6 @@ $graph:
       type: string
       default: data/input
       doc: Directory (relative to the working directory) where the downloaded Sentinel-2 product is stored.
-  outputs:
-    processed_product:
-      type: File
-      outputSource: run_ndwi/ndwi_out
-    processed_product_stac:
-      type: File
-      outputSource: run_ndwi/ndwi_stac_out
   steps:
     run_get_conf:
       run: '#retrieve_conf'
@@ -54,7 +47,13 @@ $graph:
       out:
         - ndwi_out
         - ndwi_stac_out
-
+  outputs:
+    processed_product:
+      type: File
+      outputSource: run_ndwi/ndwi_out
+    processed_product_stac:
+      type: File
+      outputSource: run_ndwi/ndwi_stac_out
 - class: CommandLineTool
   id: retrieve_s2
   baseCommand: download_from_s3
