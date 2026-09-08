@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/compute_ndwi.py .
 
-ENTRYPOINT ["python3", "/app/compute_ndwi.py"]
+CMD ["python3", "/app/compute_ndwi.py"]

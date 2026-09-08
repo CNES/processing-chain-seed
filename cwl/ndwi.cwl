@@ -125,7 +125,7 @@ $graph:
 
 - class: CommandLineTool
   id: '#run_ndwi_container'
-  baseCommand: []
+  baseCommand: ["python3", "/app/compute_ndwi.py"]
   arguments:
     - --product
     - $(inputs.product.basename)
@@ -135,7 +135,7 @@ $graph:
     - config.json
   requirements:
     DockerRequirement:
-      dockerPull: cnes/processing-chain-seed:0.0.4
+      dockerPull: cnes/processing-chain-seed:0.0.5
     ResourceRequirement:
       coresMin: 2
       coresMax: 2
