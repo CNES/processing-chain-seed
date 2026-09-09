@@ -104,7 +104,13 @@ For example, `SENTINEL2B_..._L2A_...zip` produces
 ## Github Action build and push the image to CNES DockerHub
 
 By default for each commit it will update the version cnes/processing-chain-seed:dev
-If the commit is tagged it will create a version with the current tag
+
+If you create a tag and push it, the CD will build it with the tag version cnes/processing-chain-seed:x.x.x
+
+```powershell
+git tag x.x.x
+git push origin x.x.x
+```
 
 ## Manualy Build and push the image to CNES DockerHub
 
