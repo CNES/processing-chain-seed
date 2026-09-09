@@ -21,6 +21,7 @@ STAC_VERSION = "1.1.0"
 
 
 def parse_args(argv=None):
+    """Parses the command-line arguments (--product, --output, --config)."""
     parser = argparse.ArgumentParser(
         description="Compute NDWI from a Sentinel-2 L2A ZIP product")
     parser.add_argument("--product",
@@ -34,6 +35,7 @@ def parse_args(argv=None):
 
 
 def load_config(config_path: str) -> dict:
+    """Loads and validates the JSON configuration file (must define a 'driver')."""
     with open(config_path, encoding="utf-8") as config_file:
         config = json.load(config_file)
     if not isinstance(config, dict) or not isinstance(config.get("driver"), str):
@@ -42,6 +44,7 @@ def load_config(config_path: str) -> dict:
 
 
 def extract_bands(product_path: str, extract_dir: str) -> tuple[str, str]:
+    """Extracts the green (B03) and NIR (B08) bands from the S2 ZIP product to extract_dir."""
     with zipfile.ZipFile(product_path) as product:
         band_members = {
             "green": [member for member in product.namelist()
@@ -68,6 +71,7 @@ def extract_bands(product_path: str, extract_dir: str) -> tuple[str, str]:
 
 def compute_ndwi(green_path: str, nir_path: str, output_path: str,
                  driver: str = "GTiff") -> None:
+    """Computes NDWI = (green - nir) / (green + nir) block by block and writes it to output_path."""
     with rasterio.open(green_path) as green_src, rasterio.open(nir_path) as nir_src:
         if green_src.shape != nir_src.shape:
             raise ValueError(
@@ -89,6 +93,7 @@ def compute_ndwi(green_path: str, nir_path: str, output_path: str,
 
 
 def build_stac_item(ndwi_path: str, product_path: str, item_id: str) -> dict:
+    """Builds the STAC Item (bbox, geometry, properties, assets) describing the NDWI raster."""
     with rasterio.open(ndwi_path) as ndwi_src:
         bbox = transform_bounds(ndwi_src.crs, "EPSG:4326", *ndwi_src.bounds)
         west, south, east, north = bbox
@@ -136,12 +141,14 @@ def build_stac_item(ndwi_path: str, product_path: str, item_id: str) -> dict:
 
 
 def output_paths(product_path: str, output_dir: str) -> tuple[Path, Path]:
+    """Derives the NDWI (.tif) and STAC item (.json) output paths from the product name (L2A -> L2B)."""
     output_name = Path(product_path).stem.replace("L2A", "L2B")
     ndwi_path = Path(output_dir) / f"{output_name}.tif"
     return ndwi_path, ndwi_path.with_suffix(".json")
 
 
 def main(argv=None) -> int:
+    """Orchestrates the full chain: extract bands, compute NDWI, generate and write the STAC item."""
     args = parse_args(argv)
     config = load_config(args.config)
     ndwi_output, stac_output = output_paths(args.product, args.output)
