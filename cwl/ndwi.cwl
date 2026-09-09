@@ -137,9 +137,7 @@ $graph:
       dockerPull: cnes/processing-chain-seed:0.0.5
     ResourceRequirement:
       coresMin: 2
-      coresMax: 2
-      ramMin: 256
-      ramMax: 3000
+      ramMin: 1024
     InitialWorkDirRequirement:
       listing:
         - entryname: $(inputs.product.basename)
