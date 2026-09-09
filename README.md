@@ -101,11 +101,18 @@ final workflow outputs are copied into `data/output/` once the run succeeds.
 For example, `SENTINEL2B_..._L2A_...zip` produces
 `SENTINEL2B_..._L2B_...tif` and `SENTINEL2B_..._L2B_...json`.
 
-## Build and push the image to CNES DockerHub
+## Github Action build and push the image to CNES DockerHub
+
+By default for each commit it will update the version cnes/processing-chain-seed:dev
+If the commit is tagged it will create a version with the current tag
+
+## Manualy Build and push the image to CNES DockerHub
 
 ```powershell
 echo "$DOCKER_API_KEY" | docker login -u "$DOCKER_LOGIN" --password-stdin && docker build -t "cnes/processing-chain-seed:x.x.x" . && docker push "cnes/processing-chain-seed:x.x.x"
 ```
+
+
 
 ## Interpreting the result
 
